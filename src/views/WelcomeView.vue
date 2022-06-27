@@ -8,6 +8,10 @@
     </div>
     <div v-else>
       <SignupForm />
+      <p class="welcome-hint">
+        Already registered?
+        <span @click="showLogin = true">Login</span> instead.
+      </p>
     </div>
   </div>
 </template>
