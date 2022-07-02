@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import useSignup from "../composables/useSignup";
 
 const displayName = ref<string>("");
@@ -43,6 +43,7 @@ const email = ref<string>("");
 const password = ref<string>("");
 
 const { error, signup } = useSignup();
+const emit = defineEmits(["signup"]);
 
 const handleSubmit = async () => {
   await signup({
@@ -50,6 +51,9 @@ const handleSubmit = async () => {
     email: email.value,
     password: password.value,
   });
+  if (!error.value) {
+    emit("signup");
+  }
 };
 </script>
 

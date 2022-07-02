@@ -26,11 +26,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import useLogin from "@/composables/useLogin";
 
 const email = ref<string>("");
 const password = ref<string>("");
+const emit = defineEmits(["login"]);
 
 const { login, error } = useLogin();
 
@@ -39,5 +40,8 @@ const handleSubmit = () => {
     email: email.value,
     password: password.value,
   });
+  if (!error.value) {
+    emit("login");
+  }
 };
 </script>
