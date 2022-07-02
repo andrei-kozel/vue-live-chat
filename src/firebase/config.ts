@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, serverTimestamp } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.VUE_APP_FIREBASE_API,
@@ -14,5 +15,6 @@ initializeApp(firebaseConfig);
 
 const db = getFirestore();
 const timestamp = serverTimestamp();
+const auth = getAuth();
 
-export { db, timestamp };
+export { auth, db, timestamp };

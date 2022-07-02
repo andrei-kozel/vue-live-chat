@@ -29,19 +29,27 @@
         v-model="password"
       />
     </div>
+    <div v-if="error" class="form-error">{{ error }}</div>
     <button class="form-button">Sign up</button>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import useSignup from "../composables/useSignup";
 
-const displayName = ref<string>();
-const email = ref<string>();
-const password = ref<string>();
+const displayName = ref<string>("");
+const email = ref<string>("");
+const password = ref<string>("");
 
-const handleSubmit = () => {
-  console.log(displayName.value, email.value, password.value);
+const { error, signup } = useSignup();
+
+const handleSubmit = async () => {
+  await signup({
+    displayName: displayName.value,
+    email: email.value,
+    password: password.value,
+  });
 };
 </script>
 
@@ -60,6 +68,9 @@ const handleSubmit = () => {
   }
   &-button {
     @apply bg-teal-500 text-white px-7 py-3 rounded-lg uppercase text-lg font-bold hover:bg-teal-600;
+  }
+  &-error {
+    @apply text-red-500 text-sm mb-2;
   }
 }
 </style>

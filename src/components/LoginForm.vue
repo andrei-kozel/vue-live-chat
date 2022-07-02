@@ -20,17 +20,24 @@
         v-model="password"
       />
     </div>
+    <div v-if="error" class="form-error">{{ error }}</div>
     <button class="form-button">Log in</button>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import useLogin from "@/composables/useLogin";
 
-const email = ref<string>();
-const password = ref<string>();
+const email = ref<string>("");
+const password = ref<string>("");
+
+const { login, error } = useLogin();
 
 const handleSubmit = () => {
-  console.log(email.value, password.value);
+  login({
+    email: email.value,
+    password: password.value,
+  });
 };
 </script>
