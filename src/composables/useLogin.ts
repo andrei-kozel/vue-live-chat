@@ -11,8 +11,7 @@ const login = async (user: ILoginUser) => {
   error.value = "";
 
   try {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-    console.log(res);
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (e) {
     error.value = (e as Error).message;
     console.error((e as Error).message);
