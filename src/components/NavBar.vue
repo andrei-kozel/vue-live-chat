@@ -1,8 +1,8 @@
 <template>
   <nav class="navigation">
     <div>
-      <p>Hey there ... display name here</p>
-      <p class="email">Currently logged in as ... email</p>
+      <p>Hey there {{ user?.displayName }}</p>
+      <p class="email">Currently logged in as {{ user?.email }}</p>
     </div>
     <button class="button" @click="handleLogout">Logout</button>
   </nav>
@@ -10,10 +10,12 @@
 
 <script setup lang="ts">
 import useLogout from "../composables/useLogout";
+import getUser from "@/composables/getUser";
 import { useRouter } from "vue-router";
 import { defineEmits } from "vue";
 
 const { error, logout } = useLogout();
+const { user } = getUser();
 const router = useRouter();
 const emit = defineEmits(["error"]);
 
