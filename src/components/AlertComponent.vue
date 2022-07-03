@@ -1,6 +1,6 @@
 <template>
   <div class="alert" role="alert">
-    <span class="alert-text">Something seriously bad happened.</span>
+    <span class="alert-text">{{ props.message }}</span>
     <span class="icon" @click="handleCloseAlert">
       <svg
         class="fill-current h-6 w-6 text-red-500"
@@ -17,8 +17,14 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps } from "vue";
+import { defineEmits } from "vue";
+
+const props = defineProps({ message: { type: String, required: true } });
+const emit = defineEmits(["closeAlert"]);
+
 const handleCloseAlert = () => {
-  console.log("handleCloseAlert");
+  emit("closeAlert");
 };
 </script>
 
