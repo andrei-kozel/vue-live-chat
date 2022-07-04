@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
     <NavBar @error="toggleError" />
-    <div>Chatroom</div>
+    <ChatForm />
   </div>
   <AlertComponent
     v-if="showError"
@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
 import AlertComponent from "@/components/AlertComponent.vue";
+import ChatForm from "@/components/ChatForm.vue";
 import { ref } from "vue";
 
 const showError = ref<boolean>(false);
