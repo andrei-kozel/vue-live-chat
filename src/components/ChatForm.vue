@@ -2,22 +2,25 @@
   <form class="chat-form">
     <textarea
       v-model="message"
-      @keyup.enter="sendMessage"
+      @keyup.enter="handleSubmit"
       placeholder="Type a message and press enter to send ..."
     ></textarea>
+    {{ error }}
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { IChatMessage } from "@/types/index";
-import getUser from "@/composables/getUser";
 import { timestamp } from "@/firebase/config";
+import getUser from "@/composables/getUser";
+import useCollection from "../composables/useCollection";
+import { IChatMessage } from "@/types/index";
 
 const message = ref<string>("");
 const { user } = getUser();
+const { error, sendMessage } = useCollection();
 
-const sendMessage = async () => {
+const handleSubmit = async () => {
   const chat: IChatMessage = {
     message: message.value,
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -25,8 +28,10 @@ const sendMessage = async () => {
     createdAt: timestamp,
   };
 
-  console.log(chat);
-  message.value = "";
+  await sendMessage(chat);
+  if (!error.value) {
+    message.value = "";
+  }
 };
 </script>
 
