@@ -4,6 +4,7 @@
       v-model="message"
       @keyup.enter="handleSubmit"
       placeholder="Type a message and press enter to send ..."
+      ref="textarea"
     ></textarea>
     {{ error }}
   </form>
@@ -15,6 +16,8 @@ import { timestamp } from "@/firebase/config";
 import getUser from "@/composables/getUser";
 import useCollection from "../composables/useCollection";
 import { IChatMessage } from "@/types/index";
+
+const textarea = ref<HTMLTextAreaElement | null>(null);
 
 const message = ref<string>("");
 const { user } = getUser();
@@ -28,9 +31,17 @@ const handleSubmit = async () => {
     createdAt: timestamp,
   };
 
+  if (textarea.value) {
+    textarea.value.value = "";
+  }
+
   await sendMessage(chat);
   if (!error.value) {
     message.value = "";
+  } else {
+    if (textarea.value) {
+      textarea.value.value = message.value;
+    }
   }
 };
 </script>
