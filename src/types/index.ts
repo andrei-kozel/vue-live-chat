@@ -16,3 +16,13 @@ export interface IChatMessage {
   createdAt: FieldValue;
   user: string | null;
 }
+
+export interface IMessage {
+  message: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  user: string;
+  id: string;
+}
