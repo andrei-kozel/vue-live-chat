@@ -1,4 +1,4 @@
-import { FieldValue } from "@firebase/firestore";
+import { FieldValue, Timestamp } from "@firebase/firestore";
 
 export interface IRegisterUser {
   email: string;
@@ -19,10 +19,7 @@ export interface IChatMessage {
 
 export interface IMessage {
   message: string;
-  createdAt: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  createdAt: Timestamp;
   user: string;
   id: string;
 }

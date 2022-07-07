@@ -2,12 +2,15 @@
   <div class="chat">
     <NavBar @error="toggleError" />
     <div class="chat-feed" ref="chat">
-      <div v-for="msg in messages" :key="msg.id" class="chat-message">
+      <div v-for="msg in formattedMessages" :key="msg.id" class="chat-message">
         <div class="chat-message__user">
           <span class="chat-message__user__avatar">{{
             msg.user[0].toUpperCase()
           }}</span>
           <p class="chat-message__user__name">{{ msg.user }}</p>
+          <p class="text-sm ml-2 text-gray-400">
+            {{ msg.createdAt + " ago" }}
+          </p>
         </div>
         <p class="chat-message__message">{{ msg.message }}</p>
       </div>
@@ -27,7 +30,8 @@ import NavBar from "@/components/NavBar.vue";
 import AlertComponent from "@/components/AlertComponent.vue";
 import ChatForm from "@/components/ChatForm.vue";
 import getCollection from "@/composables/getCollection";
-import { onUpdated, ref } from "vue";
+import { formatDistanceToNow } from "date-fns";
+import { computed, onUpdated, ref } from "vue";
 
 const showError = ref<boolean>(false);
 const errorMessage = ref<string>("");
@@ -52,6 +56,20 @@ const toggleError = (error: string) => {
 const closeAlert = () => {
   showError.value = false;
 };
+
+// eslint-disable-next-line vue/return-in-computed-property
+const formattedMessages = computed(() => {
+  if (messages.value) {
+    return messages.value.map((msg) => {
+      return {
+        ...msg,
+        createdAt: msg.createdAt
+          ? formatDistanceToNow(msg.createdAt.toDate())
+          : "just now",
+      };
+    });
+  }
+});
 </script>
 
 <style scoped lang="scss">
